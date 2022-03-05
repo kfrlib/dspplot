@@ -12,23 +12,25 @@ from scipy import interpolate
 
 def gen_ticks(stop, start=10):
     yield start
-    for s in range(0, 10):
+    for s in range(2, 10):
         if start * s > stop:
             yield stop
-            raise StopIteration
+            break
         yield start * s
-    for t in gen_ticks(stop, start * 10):
-        yield t
+    else:
+        for t in gen_ticks(stop, start * 10):
+            yield t
 
 def gen_tick_labels(stop, start=10):
     yield (str(start) + 'Hz').replace('000Hz', 'kHz')
-    for s in range(0, 10):
+    for s in range(2, 10):
         if start * s > stop:
             yield (str(int(stop)) + 'Hz').replace('000Hz', 'kHz')
-            raise StopIteration
+            break
         yield ''
-    for t in gen_tick_labels(stop, start * 10):
-        yield t
+    else:
+        for t in gen_tick_labels(stop, start * 10):
+            yield t
         
 def smooth_colormap(colors, name='cmap1'):
     to_rgb = clr.ColorConverter().to_rgb
